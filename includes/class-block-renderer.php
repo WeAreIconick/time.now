@@ -2,7 +2,7 @@
 /**
  * Block renderer class for server-side rendering
  *
- * @package CalendarBlock
+ * @package TimeNow
  */
 
 // Prevent direct access
@@ -13,7 +13,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 /**
  * Block renderer class
  */
-class Calendar_Block_Renderer {
+class Time_Now_Renderer {
 
 	/**
 	 * Render callback for the calendar block
@@ -49,7 +49,7 @@ class Calendar_Block_Renderer {
 		// Fetch events if calendar ID is provided
 		$events = array();
 		if ( ! empty( $calendar_id ) ) {
-			$api = new Calendar_Block_Google_Calendar_API();
+			$api = new Time_Now_Google_Calendar_API();
 			$start_date = gmdate( 'Y-m-d', strtotime( '-1 month' ) );
 			$end_date = gmdate( 'Y-m-d', strtotime( '+3 months' ) );
 			$events = $api->get_events( $calendar_id, $start_date, $end_date );
@@ -74,12 +74,12 @@ class Calendar_Block_Renderer {
 		// Handle empty calendar ID
 		if ( empty( $calendar_id ) ) {
 			echo '<div class="calendar-placeholder">';
-			echo '<p>' . esc_html__( 'Please configure your Google Calendar ID in the block settings.', 'calendar-block' ) . '</p>';
+			echo '<p>' . esc_html__( 'Please configure your Google Calendar ID in the block settings.', 'time-now' ) . '</p>';
 			echo '</div>';
 		} elseif ( isset( $events['error'] ) ) {
 			// Handle API errors
 			echo '<div class="calendar-error">';
-			echo '<p><strong>' . esc_html__( 'Error:', 'calendar-block' ) . '</strong> ' . esc_html( $events['error'] ) . '</p>';
+			echo '<p><strong>' . esc_html__( 'Error:', 'time-now' ) . '</strong> ' . esc_html( $events['error'] ) . '</p>';
 			echo '</div>';
 		} else {
 			// Debug: Log events count

@@ -18,23 +18,23 @@ export default function Edit( { attributes, setAttributes } ) {
 	const blockProps = useBlockProps();
 
 	const viewOptions = [
-		{ label: __( 'Month', 'calendar-block' ), value: 'dayGridMonth' },
-		{ label: __( 'Week', 'calendar-block' ), value: 'timeGridWeek' },
-		{ label: __( 'Day', 'calendar-block' ), value: 'timeGridDay' },
-		{ label: __( 'Agenda', 'calendar-block' ), value: 'listWeek' },
+		{ label: __( 'Month', 'time-now' ), value: 'dayGridMonth' },
+		{ label: __( 'Week', 'time-now' ), value: 'timeGridWeek' },
+		{ label: __( 'Day', 'time-now' ), value: 'timeGridDay' },
+		{ label: __( 'Agenda', 'time-now' ), value: 'listWeek' },
 	];
 
 	return (
 		<>
 			<InspectorControls>
 				<PanelBody
-					title={ __( 'Calendar Settings', 'calendar-block' ) }
+					title={ __( 'Calendar Settings', 'time-now' ) }
 					initialOpen={ true }
 				>
 					<TextControl
 						label={ __(
 							'Google Calendar ID or Share URL',
-							'calendar-block'
+							'time-now'
 						) }
 						value={ calendarId }
 						onChange={ ( value ) =>
@@ -42,13 +42,13 @@ export default function Edit( { attributes, setAttributes } ) {
 						}
 						help={ __(
 							'Paste the share URL from Google Calendar',
-							'calendar-block'
+							'time-now'
 						) }
 						placeholder="your-email@gmail.com or https://calendar.google.com/calendar/..."
 					/>
 
 					<SelectControl
-						label={ __( 'Default View', 'calendar-block' ) }
+						label={ __( 'Default View', 'time-now' ) }
 						value={ defaultView }
 						options={ viewOptions }
 						onChange={ ( value ) =>
@@ -57,7 +57,7 @@ export default function Edit( { attributes, setAttributes } ) {
 					/>
 
 					<ToggleControl
-						label={ __( 'Show Weekends', 'calendar-block' ) }
+						label={ __( 'Show Weekends', 'time-now' ) }
 						checked={ showWeekends }
 						onChange={ ( value ) =>
 							setAttributes( { showWeekends: value } )
@@ -67,7 +67,7 @@ export default function Edit( { attributes, setAttributes } ) {
 					<RangeControl
 						label={ __(
 							'Events Per Day (Month View)',
-							'calendar-block'
+							'time-now'
 						) }
 						value={ eventLimit }
 						onChange={ ( value ) =>
@@ -77,7 +77,7 @@ export default function Edit( { attributes, setAttributes } ) {
 						max={ 5 }
 						help={ __(
 							'Maximum number of events to show per day in month view',
-							'calendar-block'
+							'time-now'
 						) }
 					/>
 
@@ -103,7 +103,7 @@ export default function Edit( { attributes, setAttributes } ) {
 								<p style={ { margin: '16px 0 0 0' } }>
 									{ __(
 										'Loading calendar…',
-										'calendar-block'
+										'time-now'
 									) }
 								</p>
 							</div>
@@ -121,14 +121,14 @@ export default function Edit( { attributes, setAttributes } ) {
 								<strong>
 									{ __(
 										'Error loading calendar:',
-										'calendar-block'
+										'time-now'
 									) }
 								</strong>
 								<p style={ { margin: '8px 0 0 0' } }>
 									{ response?.message ||
 										__(
 											'Unknown error',
-											'calendar-block'
+											'time-now'
 										) }
 								</p>
 							</div>
@@ -138,12 +138,12 @@ export default function Edit( { attributes, setAttributes } ) {
 					<Placeholder
 						icon="calendar-alt"
 						label={ __(
-							'Google Calendar Block',
-							'calendar-block'
+							'Time.now() Calendar Block',
+							'time-now'
 						) }
 						instructions={ __(
 							'Enter your Google Calendar ID in the block settings to display your calendar events.',
-							'calendar-block'
+							'time-now'
 						) }
 					>
 						<div
@@ -162,14 +162,14 @@ export default function Edit( { attributes, setAttributes } ) {
 								} }
 							>
 								{ __(
-									'Google Calendar Block',
-									'calendar-block'
+									'Time.now() Calendar Block',
+									'time-now'
 								) }
 							</p>
 							<p style={ { margin: '0', fontSize: '14px' } }>
 								{ __(
 									'Please enter your Google Calendar ID in the block settings →',
-									'calendar-block'
+									'time-now'
 								) }
 							</p>
 						</div>

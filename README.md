@@ -1,4 +1,4 @@
-# Google Calendar Block for WordPress
+# Time.now() - Google Calendar Block for WordPress
 
 A powerful WordPress block that displays Google Calendar events in a beautiful, customizable calendar interface. Perfect for showcasing events, schedules, and appointments on your WordPress website.
 
@@ -18,13 +18,13 @@ A powerful WordPress block that displays Google Calendar events in a beautiful, 
 ### From WordPress Admin
 
 1. Go to **Plugins > Add New** in your WordPress admin
-2. Search for "Google Calendar Block"
+2. Search for "Time.now()" or "Google Calendar Block"
 3. Click **Install** and then **Activate**
 
 ### Manual Installation
 
 1. Download the plugin files
-2. Upload to `/wp-content/plugins/calendar-block/` directory
+2. Upload to `/wp-content/plugins/time-now/` directory
 3. Activate the plugin through the **Plugins** menu in WordPress
 
 ## Quick Start
@@ -39,7 +39,7 @@ A powerful WordPress block that displays Google Calendar events in a beautiful, 
 
 ### 2. Configure the Plugin
 
-1. Go to **Settings > Google Calendar Block** in WordPress admin
+1. Go to **Settings > Time.now()** in WordPress admin
 2. Enter your Google Calendar API key
 3. Save settings
 

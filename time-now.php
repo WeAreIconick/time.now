@@ -73,10 +73,10 @@ class Time_Now {
 	 */
 	public function init() {
 		// Include required classes
-		require_once TIME_NOW_PLUGIN_DIR . 'includes/class-time-now-google-calendar-api.php';
-		require_once TIME_NOW_PLUGIN_DIR . 'includes/class-time-now-cache.php';
-		require_once TIME_NOW_PLUGIN_DIR . 'includes/class-time-now-renderer.php';
-		require_once TIME_NOW_PLUGIN_DIR . 'admin/class-time-now-settings-page.php';
+		require_once TIME_NOW_PLUGIN_DIR . 'includes/class-google-calendar-api.php';
+		require_once TIME_NOW_PLUGIN_DIR . 'includes/class-calendar-cache.php';
+		require_once TIME_NOW_PLUGIN_DIR . 'includes/class-block-renderer.php';
+		require_once TIME_NOW_PLUGIN_DIR . 'admin/class-settings-page.php';
 
 		// Initialize the settings page
 		Time_Now_Settings_Page::get_instance();
@@ -99,22 +99,22 @@ class Time_Now {
 	 */
 	public function enqueue_frontend_scripts() {
 		// Always enqueue the script for now to ensure it loads
-		$asset_file = include CALENDAR_BLOCK_PLUGIN_DIR . 'build/view.asset.php';
+		$asset_file = include TIME_NOW_PLUGIN_DIR . 'build/view.asset.php';
 		
 		// Force cache busting with timestamp
 		$cache_buster = time();
 		
 		// Enqueue CSS with cache busting
 		wp_enqueue_style(
-			'calendar-block-frontend-style',
-			CALENDAR_BLOCK_PLUGIN_URL . 'build/style-index.css?v=' . $cache_buster,
+			'time-now-frontend-style',
+			TIME_NOW_PLUGIN_URL . 'build/style-index.css?v=' . $cache_buster,
 			array(),
 			$cache_buster
 		);
 		
 		wp_enqueue_script(
-			'calendar-block-frontend',
-			CALENDAR_BLOCK_PLUGIN_URL . 'build/view.js?v=' . $cache_buster,
+			'time-now-frontend',
+			TIME_NOW_PLUGIN_URL . 'build/view.js?v=' . $cache_buster,
 			$asset_file['dependencies'],
 			$cache_buster,
 			true
@@ -127,11 +127,11 @@ class Time_Now {
 	public function activate() {
 		// Set default options
 		$default_options = array(
-			'version' => CALENDAR_BLOCK_VERSION,
+			'version' => TIME_NOW_VERSION,
 			'activated' => current_time( 'mysql' ),
 		);
 
-		add_option( 'calendar_block_options', $default_options );
+		add_option( 'time_now_options', $default_options );
 
 		// Flush rewrite rules
 		flush_rewrite_rules();
@@ -142,7 +142,7 @@ class Time_Now {
 	 */
 	public function deactivate() {
 		// Clear calendar cache
-		$cache = new Calendar_Block_Cache();
+		$cache = new Time_Now_Cache();
 		$cache->clear_all();
 
 		// Flush rewrite rules
@@ -151,4 +151,4 @@ class Time_Now {
 }
 
 // Initialize the plugin
-Calendar_Block::get_instance();
+Time_Now::get_instance();

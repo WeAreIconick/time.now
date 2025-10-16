@@ -2,7 +2,7 @@
 /**
  * Calendar cache management class
  *
- * @package CalendarBlock
+ * @package TimeNow
  */
 
 // Prevent direct access
@@ -13,7 +13,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 /**
  * Calendar cache wrapper class
  */
-class Calendar_Block_Cache {
+class Time_Now_Cache {
 
 	/**
 	 * Cache prefix for all transient keys

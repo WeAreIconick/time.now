@@ -9,7 +9,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 // Include the block renderer class
-require_once CALENDAR_BLOCK_PLUGIN_DIR . 'includes/class-block-renderer.php';
+require_once TIME_NOW_PLUGIN_DIR . 'includes/class-block-renderer.php';
 
 // Use the static render callback
-return Calendar_Block_Renderer::render_callback( $attributes, $content, $block );
+return Time_Now_Renderer::render_callback( $attributes, $content, $block );

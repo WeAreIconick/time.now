@@ -2,7 +2,7 @@
 /**
  * Admin settings page class
  *
- * @package CalendarBlock
+ * @package TimeNow
  */
 
 // Prevent direct access
@@ -13,19 +13,19 @@ if ( ! defined( 'ABSPATH' ) ) {
 /**
  * Settings page class
  */
-class Calendar_Block_Settings_Page {
+class Time_Now_Settings_Page {
 
 	/**
 	 * Single instance of the class
 	 *
-	 * @var Calendar_Block_Settings_Page
+	 * @var Time_Now_Settings_Page
 	 */
 	private static $instance = null;
 
 	/**
 	 * Get single instance of the class
 	 *
-	 * @return Calendar_Block_Settings_Page
+	 * @return Time_Now_Settings_Page
 	 */
 	public static function get_instance() {
 		if ( null === self::$instance ) {
@@ -48,10 +48,10 @@ class Calendar_Block_Settings_Page {
 	 */
 	public function add_settings_page() {
 		add_options_page(
-			__( 'Google Calendar Block Settings', 'calendar-block' ),
-			__( 'Google Calendar', 'calendar-block' ),
+			__( 'Time.now() Settings', 'time-now' ),
+			__( 'Time.now()', 'time-now' ),
 			'manage_options',
-			'calendar-block-settings',
+			'time-now-settings',
 			array( $this, 'render_settings_page' )
 		);
 	}
@@ -61,8 +61,8 @@ class Calendar_Block_Settings_Page {
 	 */
 	public function register_settings() {
 		register_setting(
-			'calendar_block_settings',
-			'calendar_block_api_key',
+			'time_now_settings',
+			'time_now_api_key',
 			array(
 				'type' => 'string',
 				'sanitize_callback' => 'sanitize_text_field',
@@ -77,15 +77,15 @@ class Calendar_Block_Settings_Page {
 	 * @param string $hook Current admin page hook.
 	 */
 	public function enqueue_admin_scripts( $hook ) {
-		if ( 'settings_page_calendar-block-settings' !== $hook ) {
+		if ( 'settings_page_time-now-settings' !== $hook ) {
 			return;
 		}
 
 		wp_enqueue_style(
-			'calendar-block-admin',
-			CALENDAR_BLOCK_PLUGIN_URL . 'admin/settings.css',
+			'time-now-admin',
+			TIME_NOW_PLUGIN_URL . 'admin/settings.css',
 			array(),
-			CALENDAR_BLOCK_VERSION
+			TIME_NOW_VERSION
 		);
 	}
 
@@ -94,31 +94,31 @@ class Calendar_Block_Settings_Page {
 	 */
 	public function render_settings_page() {
 		if ( ! current_user_can( 'manage_options' ) ) {
-			wp_die( esc_html__( 'You do not have sufficient permissions to access this page.', 'calendar-block' ) );
+			wp_die( esc_html__( 'You do not have sufficient permissions to access this page.', 'time-now' ) );
 		}
 
 		// Handle form submissions
 		$this->handle_form_submissions();
 
 		// Get current settings
-		$api_key = get_option( 'calendar_block_api_key', '' );
+		$api_key = get_option( 'time_now_api_key', '' );
 
 		?>
 		<div class="wrap">
-			<h1><?php esc_html_e( 'Google Calendar Block Settings', 'calendar-block' ); ?></h1>
+			<h1><?php esc_html_e( 'Time.now() Settings', 'time-now' ); ?></h1>
 
 			<form method="post" action="">
-				<?php wp_nonce_field( 'calendar_block_settings_save' ); ?>
+				<?php wp_nonce_field( 'time_now_settings_save' ); ?>
 
 				<table class="form-table" role="presentation">
 					<tr>
 						<th scope="row">
-							<label for="calendar_block_api_key"><?php esc_html_e( 'Google API Key', 'calendar-block' ); ?></label>
+							<label for="time_now_api_key"><?php esc_html_e( 'Google API Key', 'time-now' ); ?></label>
 						</th>
 						<td>
 							<input type="text" 
-								   id="calendar_block_api_key" 
-								   name="calendar_block_api_key" 
+								   id="time_now_api_key" 
+								   name="time_now_api_key" 
 								   value="<?php echo esc_attr( $api_key ); ?>" 
 								   class="regular-text"
 								   required
@@ -127,7 +127,7 @@ class Calendar_Block_Settings_Page {
 								<?php
 								printf(
 									/* translators: %s: Google Cloud Console URL */
-									esc_html__( 'Required for public calendars. Get from %s', 'calendar-block' ),
+									esc_html__( 'Required for public calendars. Get from %s', 'time-now' ),
 									'<a href="https://console.cloud.google.com/apis/credentials" target="_blank">Google Cloud Console</a>'
 								);
 								?>
@@ -138,25 +138,25 @@ class Calendar_Block_Settings_Page {
 
 				<p class="submit">
 					<input type="submit" 
-						   name="calendar_block_save_settings" 
+						   name="time_now_save_settings" 
 						   class="button button-primary" 
-						   value="<?php esc_attr_e( 'Save Settings', 'calendar-block' ); ?>"
+						   value="<?php esc_attr_e( 'Save Settings', 'time-now' ); ?>"
 					/>
 				</p>
 			</form>
 
 			<hr>
 
-			<div class="calendar-block-cache-section">
-				<h3><?php esc_html_e( 'Cache Management', 'calendar-block' ); ?></h3>
-				<p><?php esc_html_e( 'Calendar events are cached for 30 minutes to improve performance.', 'calendar-block' ); ?></p>
+			<div class="time-now-cache-section">
+				<h3><?php esc_html_e( 'Cache Management', 'time-now' ); ?></h3>
+				<p><?php esc_html_e( 'Calendar events are cached for 30 minutes to improve performance.', 'time-now' ); ?></p>
 				<form method="post" action="">
-					<?php wp_nonce_field( 'calendar_block_clear_cache' ); ?>
+					<?php wp_nonce_field( 'time_now_clear_cache' ); ?>
 					<input type="submit" 
-						   name="calendar_block_clear_cache" 
+						   name="time_now_clear_cache" 
 						   class="button" 
-						   value="<?php esc_attr_e( 'Clear Cache', 'calendar-block' ); ?>"
-						   onclick="return confirm('<?php esc_attr_e( 'Are you sure you want to clear the calendar cache?', 'calendar-block' ); ?>')"
+						   value="<?php esc_attr_e( 'Clear Cache', 'time-now' ); ?>"
+						   onclick="return confirm('<?php esc_attr_e( 'Are you sure you want to clear the calendar cache?', 'time-now' ); ?>')"
 					/>
 				</form>
 			</div>
@@ -168,25 +168,25 @@ class Calendar_Block_Settings_Page {
 	 * Handle form submissions
 	 */
 	private function handle_form_submissions() {
-		if ( isset( $_POST['calendar_block_save_settings'] ) ) {
-			check_admin_referer( 'calendar_block_settings_save' );
+		if ( isset( $_POST['time_now_save_settings'] ) ) {
+			check_admin_referer( 'time_now_settings_save' );
 
-			$api_key = sanitize_text_field( wp_unslash( $_POST['calendar_block_api_key'] ?? '' ) );
-			update_option( 'calendar_block_api_key', $api_key );
+			$api_key = sanitize_text_field( wp_unslash( $_POST['time_now_api_key'] ?? '' ) );
+			update_option( 'time_now_api_key', $api_key );
 
-			echo '<div class="notice notice-success"><p>' . esc_html__( 'Settings saved successfully!', 'calendar-block' ) . '</p></div>';
+			echo '<div class="notice notice-success"><p>' . esc_html__( 'Settings saved successfully!', 'time-now' ) . '</p></div>';
 		}
 
-		if ( isset( $_POST['calendar_block_clear_cache'] ) ) {
-			check_admin_referer( 'calendar_block_clear_cache' );
+		if ( isset( $_POST['time_now_clear_cache'] ) ) {
+			check_admin_referer( 'time_now_clear_cache' );
 
-			$cache = new Calendar_Block_Cache();
+			$cache = new Time_Now_Cache();
 			$deleted = $cache->clear_all();
 
 			echo '<div class="notice notice-success"><p>' . 
 				sprintf( 
 					/* translators: %d: Number of cached items deleted */
-					esc_html__( 'Cache cleared successfully! %d cached items deleted.', 'calendar-block' ), 
+					esc_html__( 'Cache cleared successfully! %d cached items deleted.', 'time-now' ), 
 					esc_html( $deleted ) 
 				) . 
 				'</p></div>';

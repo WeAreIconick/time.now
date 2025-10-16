@@ -2,7 +2,7 @@
 /**
  * Google Calendar API integration class
  *
- * @package CalendarBlock
+ * @package TimeNow
  */
 
 // Prevent direct access
@@ -13,7 +13,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 /**
  * Google Calendar API wrapper class
  */
-class Calendar_Block_Google_Calendar_API {
+class Time_Now_Google_Calendar_API {
 
 	/**
 	 * Google Calendar API key
@@ -25,7 +25,7 @@ class Calendar_Block_Google_Calendar_API {
 	/**
 	 * Cache instance
 	 *
-	 * @var Calendar_Block_Cache
+	 * @var Time_Now_Cache
 	 */
 	private $cache;
 
@@ -33,8 +33,8 @@ class Calendar_Block_Google_Calendar_API {
 	 * Constructor
 	 */
 	public function __construct() {
-		$this->api_key = get_option( 'calendar_block_api_key', '' );
-		$this->cache = new Calendar_Block_Cache();
+		$this->api_key = get_option( 'time_now_api_key', '' );
+		$this->cache = new Time_Now_Cache();
 	}
 
 	/**
@@ -91,11 +91,11 @@ class Calendar_Block_Google_Calendar_API {
 	 */
 	public function get_events( $calendar_id, $start_date, $end_date ) {
 		if ( empty( $this->api_key ) ) {
-			return array( 'error' => __( 'Google Calendar API key is not configured.', 'calendar-block' ) );
+			return array( 'error' => __( 'Google Calendar API key is not configured.', 'time-now' ) );
 		}
 
 		if ( empty( $calendar_id ) ) {
-			return array( 'error' => __( 'Calendar ID is required.', 'calendar-block' ) );
+			return array( 'error' => __( 'Calendar ID is required.', 'time-now' ) );
 		}
 
 		// Extract Calendar ID from share URL if needed
@@ -147,9 +147,9 @@ class Calendar_Block_Google_Calendar_API {
 		
 		if ( 200 !== $response_code ) {
 			$data = json_decode( $response_body, true );
-			$error_message = isset( $data['error']['message'] ) ? $data['error']['message'] : __( 'Unknown API error', 'calendar-block' );
+			$error_message = isset( $data['error']['message'] ) ? $data['error']['message'] : __( 'Unknown API error', 'time-now' );
 			// translators: %1$d is the HTTP response code, %2$s is the error message
-			return array( 'error' => sprintf( __( 'API Error %1$d: %2$s', 'calendar-block' ), $response_code, $error_message ) );
+			return array( 'error' => sprintf( __( 'API Error %1$d: %2$s', 'time-now' ), $response_code, $error_message ) );
 		}
 
 		$data = json_decode( $response_body, true );
@@ -171,7 +171,7 @@ class Calendar_Block_Google_Calendar_API {
 		}
 
 		if ( ! isset( $data['items'] ) ) {
-			return array( 'error' => __( 'Invalid API response format', 'calendar-block' ) );
+			return array( 'error' => __( 'Invalid API response format', 'time-now' ) );
 		}
 
 		// Transform events to FullCalendar format

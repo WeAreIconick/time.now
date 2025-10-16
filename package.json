@@ -1,7 +1,7 @@
 {
-	"name": "calendar-block",
+	"name": "time-now",
 	"version": "1.0.0",
-	"description": "Beautiful Google Calendar display with multiple views for WordPress",
+	"description": "Beautiful Google Calendar display with multiple views for WordPress - Time.now()",
 	"main": "build/index.js",
 	"scripts": {
 		"build": "wp-scripts build",

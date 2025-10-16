@@ -1,0 +1,98 @@
+/* Admin Settings Page Styles */
+
+.calendar-block-instructions {
+	margin-top: 30px;
+	padding: 20px;
+	background: #f9f9f9;
+	border-radius: 4px;
+}
+
+.calendar-block-instructions h2 {
+	margin-top: 0;
+	color: #23282d;
+}
+
+.calendar-block-instructions ol {
+	padding-left: 20px;
+}
+
+.calendar-block-instructions li {
+	margin-bottom: 8px;
+	line-height: 1.6;
+}
+
+.calendar-block-cache-section {
+	margin-top: 25px;
+	padding-top: 20px;
+	border-top: 1px solid #ddd;
+}
+
+.calendar-block-cache-section h3 {
+	margin-top: 0;
+	color: #23282d;
+}
+
+.form-table th {
+	width: 200px;
+}
+
+.form-table td .description {
+	font-style: italic;
+	color: #666;
+}
+
+.form-table td .description a {
+	text-decoration: none;
+}
+
+.form-table td .description a:hover {
+	text-decoration: underline;
+}
+
+input[disabled] {
+	background-color: #f1f1f1;
+	color: #a0a5aa;
+	cursor: not-allowed;
+}
+
+.notice {
+	margin: 15px 0;
+	padding: 12px;
+	border-left: 4px solid #00a0d2;
+	background: #fff;
+	box-shadow: 0 1px 1px 0 rgba(0, 0, 0, 0.1);
+}
+
+.notice.notice-success {
+	border-left-color: #46b450;
+}
+
+.notice p {
+	margin: 0;
+	font-size: 13px;
+	line-height: 1.5;
+}
+
+/* Responsive adjustments */
+@media (max-width: 782px) {
+
+	.form-table th,
+	.form-table td {
+		display: block;
+		width: 100%;
+		padding: 10px 0;
+	}
+
+	.form-table th {
+		padding-bottom: 5px;
+	}
+
+	.form-table td {
+		padding-top: 0;
+	}
+
+	.regular-text {
+		width: 100%;
+		max-width: none;
+	}
+}

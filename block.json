@@ -1,0 +1,48 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "calendar-block/google-calendar",
+	"version": "1.0.0",
+	"title": "Google Calendar",
+	"category": "widgets",
+	"icon": "calendar-alt",
+	"description": "Display beautiful Google Calendar events with multiple views",
+	"keywords": [ "calendar", "google", "events", "schedule" ],
+	"attributes": {
+		"calendarId": {
+			"type": "string",
+			"default": ""
+		},
+		"defaultView": {
+			"type": "string",
+			"default": "dayGridMonth",
+			"enum": [
+				"dayGridMonth",
+				"timeGridWeek",
+				"timeGridDay",
+				"listWeek"
+			]
+		},
+		"showWeekends": {
+			"type": "boolean",
+			"default": true
+		},
+		"eventLimit": {
+			"type": "number",
+			"default": 3
+		}
+	},
+	"supports": {
+		"html": false,
+		"align": [ "wide", "full" ],
+		"spacing": {
+			"margin": true,
+			"padding": true
+		}
+	},
+	"textdomain": "calendar-block",
+	"editorScript": "file:./build/index.js",
+	"editorStyle": "file:./build/index.css",
+	"style": "file:./build/style-index.css",
+	"render": "file:./render.php"
+}

@@ -1,0 +1,230 @@
+/**
+ * Tailwind CSS styles for Google Calendar Block - Figma Design
+ *
+ * @package Calendar_Block
+ */
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+// Custom components matching the Figma design
+@layer components {
+  .calendar-block-wrapper {
+    @apply h-screen flex flex-col bg-white;
+  }
+
+  .calendar-container {
+    @apply flex flex-col h-full;
+  }
+
+  // Header matching Figma design
+  .calendar-header {
+    @apply flex items-center justify-between p-4 border-b bg-white;
+
+    .header-left {
+      @apply flex items-center gap-4;
+
+      .calendar-title {
+        @apply flex items-center gap-2;
+
+        .calendar-icon {
+          @apply w-6 h-6 text-blue-600;
+        }
+
+        .calendar-text {
+          @apply text-blue-600;
+        }
+      }
+
+      .today-button {
+        @apply inline-flex items-center justify-center whitespace-nowrap text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 border bg-background text-foreground hover:bg-accent hover:text-accent-foreground h-8 rounded-md gap-1.5 px-3;
+      }
+
+      .navigation {
+        @apply flex items-center gap-1;
+
+        .nav-button {
+          @apply inline-flex items-center justify-center gap-2 whitespace-nowrap text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 hover:bg-accent hover:text-accent-foreground size-9 rounded-md;
+        }
+      }
+
+      .month-title {
+        @apply text-gray-700;
+      }
+    }
+
+    .create-button {
+      @apply inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 text-primary-foreground h-9 px-4 py-2 bg-blue-600 hover:bg-blue-700;
+
+      .plus-icon {
+        @apply w-4 h-4 mr-2;
+      }
+    }
+  }
+
+  // Calendar body matching Figma design
+  .calendar-body {
+    @apply flex-1 overflow-hidden;
+
+    .calendar-content {
+      @apply flex flex-col h-full overflow-auto bg-gray-50;
+
+      // Week header
+      .week-header {
+        @apply sticky top-0 bg-white border-b z-10 grid grid-cols-[60px_repeat(7,1fr)];
+
+        .time-column {
+          @apply border-r;
+        }
+
+        .day-header {
+          @apply text-center py-3 border-r last:border-r-0;
+
+          .day-name {
+            @apply text-xs text-gray-500 uppercase;
+          }
+
+          .day-number {
+            @apply text-2xl mt-1 text-gray-700;
+
+            &.today {
+              @apply bg-blue-600 text-white rounded-full w-10 h-10 flex items-center justify-center mx-auto;
+            }
+          }
+        }
+      }
+
+      // Calendar grid
+      .calendar-grid {
+        @apply flex-1;
+
+        .time-grid {
+          @apply grid grid-cols-[60px_repeat(7,1fr)];
+
+          .time-column {
+            @apply border-r;
+
+            .time-slot {
+              @apply h-16 border-b text-xs text-gray-500 pr-2 text-right pt-1;
+            }
+          }
+
+          .day-column {
+            @apply border-r last:border-r-0 relative;
+
+            &.today-column {
+              @apply bg-blue-50/30;
+            }
+
+            .time-slot {
+              @apply h-16 border-b hover:bg-gray-100/50 transition-colors cursor-pointer;
+            }
+
+            .events-container {
+              @apply absolute top-0 left-0 right-0 p-1 pointer-events-none;
+
+              .events-list {
+                @apply space-y-1 pointer-events-auto;
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+
+  // Event styling matching Figma design
+  .calendar-event {
+    @apply rounded-lg p-2 mb-1 cursor-pointer transition-all hover:shadow-md hover:scale-[1.02] border-l-4;
+
+    &.blue-event {
+      @apply bg-blue-100 text-blue-800;
+      border-left-color: hsl(var(--blue));
+    }
+
+    &.purple-event {
+      @apply bg-purple-100 text-purple-800;
+      border-left-color: hsl(var(--purple));
+    }
+
+    &.pink-event {
+      @apply bg-pink-100 text-pink-800;
+      border-left-color: hsl(var(--pink));
+    }
+
+    &.green-event {
+      @apply bg-green-100 text-green-800;
+      border-left-color: hsl(var(--green));
+    }
+
+    &.yellow-event {
+      @apply bg-yellow-100 text-yellow-800;
+      border-left-color: hsl(var(--yellow));
+    }
+
+    .event-time {
+      @apply text-xs opacity-90;
+    }
+
+    .event-title {
+      @apply text-sm;
+    }
+  }
+
+  // FullCalendar overrides to match design
+  .fc {
+    @apply hidden; // Hide default FullCalendar, we'll use custom HTML
+
+    // If we need to show FullCalendar as fallback
+    &.fc-fallback {
+      @apply block;
+    }
+  }
+
+  // Loading state
+  .calendar-loading {
+    @apply flex items-center justify-center py-12;
+
+    .loading-spinner {
+      @apply animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600;
+    }
+  }
+
+  // Error state
+  .calendar-error {
+    @apply bg-red-50 border border-red-200 rounded-lg p-4 text-red-800;
+
+    .error-title {
+      @apply font-semibold mb-2;
+    }
+  }
+
+  // Empty state
+  .calendar-empty {
+    @apply text-center py-12 text-gray-500;
+
+    .empty-icon {
+      @apply mx-auto h-12 w-12 text-gray-400 mb-4;
+    }
+
+    .empty-title {
+      @apply text-lg font-medium text-gray-900 mb-2;
+    }
+
+    .empty-description {
+      @apply text-gray-500;
+    }
+  }
+}
+
+// Custom utilities
+@layer utilities {
+  .calendar-shadow {
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  }
+
+  .calendar-shadow-lg {
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+  }
+}

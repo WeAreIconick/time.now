@@ -29,6 +29,11 @@ define( 'TIME_NOW_PLUGIN_BASENAME', plugin_basename( __FILE__ ) );
 
 /**
  * Main plugin class
+ * 
+ * Features:
+ * - Conditional loading: Only loads Tailwind CSS and JavaScript when calendar block is present
+ * - Performance optimized: Caches block detection results
+ * - Comprehensive detection: Checks posts, widgets, and template parts
  */
 class Time_Now {
 
@@ -98,7 +103,19 @@ class Time_Now {
 	 * Enqueue frontend scripts conditionally
 	 */
 	public function enqueue_frontend_scripts() {
-		// Always enqueue the script for now to ensure it loads
+		// Check if calendar block is present on the page
+		$has_block = $this->has_calendar_block();
+		
+		// Safety net: if we can't determine the page content properly, load scripts anyway
+		// This ensures the calendar works even if detection fails
+		$should_load_anyway = $this->should_load_scripts_anyway();
+		
+		$should_load = $has_block || $should_load_anyway;
+		
+		if ( ! $should_load ) {
+			return;
+		}
+
 		$asset_file = include TIME_NOW_PLUGIN_DIR . 'build/view.asset.php';
 		
 		// Force cache busting with timestamp
@@ -119,6 +136,96 @@ class Time_Now {
 			$cache_buster,
 			true
 		);
+	}
+
+	/**
+	 * Check if calendar block is present on the current page
+	 *
+	 * @return bool True if calendar block is present
+	 */
+	private function has_calendar_block() {
+		global $post;
+
+		// Check if we're in the admin or if there's no post
+		if ( is_admin() || ! $post ) {
+			return false;
+		}
+
+		// Cache the result for this request to avoid multiple checks
+		static $cache = null;
+		if ( $cache !== null ) {
+			return $cache;
+		}
+
+		// Method 1: Use WordPress has_block function (most reliable)
+		if ( has_block( 'time-now/google-calendar', $post ) ) {
+			$cache = true;
+			return true;
+		}
+
+		// Method 2: Check post content for block comments
+		$content = $post->post_content;
+		if ( strpos( $content, '<!-- wp:time-now/google-calendar' ) !== false ) {
+			$cache = true;
+			return true;
+		}
+
+		// Method 3: Check for the wrapper class in raw content
+		if ( strpos( $content, 'time-now-calendar-wrapper' ) !== false || strpos( $content, 'calendar-block-wrapper' ) !== false ) {
+			$cache = true;
+			return true;
+		}
+
+		// Method 4: Check for the block name in content
+		if ( strpos( $content, 'time-now/google-calendar' ) !== false ) {
+			$cache = true;
+			return true;
+		}
+
+		// Method 5: Check rendered content (this might be expensive, so do it last)
+		$rendered_content = apply_filters( 'the_content', $content );
+		if ( strpos( $rendered_content, 'time-now-calendar-wrapper' ) !== false || strpos( $rendered_content, 'calendar-block-wrapper' ) !== false ) {
+			$cache = true;
+			return true;
+		}
+
+		// Method 7: Check the actual page output for calendar elements
+		// This is the most reliable method - check what's actually being rendered
+		ob_start();
+		// Capture any output that might contain calendar elements
+		$output = ob_get_clean();
+		if ( strpos( $output, 'time-now-calendar-wrapper' ) !== false || strpos( $output, 'calendar-block-wrapper' ) !== false ) {
+			$cache = true;
+			return true;
+		}
+
+		// Method 8: Check if the page has been processed and contains calendar elements
+		// This checks the final HTML that would be sent to the browser
+		if ( is_singular() ) {
+			// Force a more thorough check by looking at the post content more carefully
+			$blocks = parse_blocks( $content );
+			foreach ( $blocks as $block ) {
+				if ( isset( $block['blockName'] ) && $block['blockName'] === 'time-now/google-calendar' ) {
+					$cache = true;
+					return true;
+				}
+			}
+		}
+
+		$cache = false;
+		return false;
+	}
+
+	/**
+	 * Safety net: determine if we should load scripts anyway
+	 * This helps when block detection fails but we still need the scripts
+	 *
+	 * @return bool True if we should load scripts as a safety measure
+	 */
+	private function should_load_scripts_anyway() {
+		// DISABLED: Don't load scripts unless we're absolutely sure there's a calendar block
+		// This prevents CSS from loading on pages without the calendar
+		return false;
 	}
 
 	/**

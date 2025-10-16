@@ -10,6 +10,12 @@
  * @returns {void}
  */
 function initializeCustomCalendar(container) {
+  // Prevent double initialization
+  if (container.dataset.initialized === 'true') {
+    return;
+  }
+  container.dataset.initialized = 'true';
+  
   let calendarId = container.dataset.calendarId;
   let events = [];
   const defaultView = container.dataset.defaultView || "timeGridWeek";
@@ -22,6 +28,8 @@ function initializeCustomCalendar(container) {
     } catch (e) {
       // Error parsing events - continue with empty array
     }
+  } else {
+    // No data-events attribute found
   }
 
   // If no events found in data-events, check if calendarId contains JSON data
@@ -96,7 +104,6 @@ function initializeCustomCalendar(container) {
   const calendarHTML = createCalendarHTML(events, accentColor, initialWeekDate);
   container.innerHTML = calendarHTML;
 
-  // Debug: Log events and initial week date
   // Position events on the calendar
   positionEvents(container, events);
 
@@ -313,7 +320,7 @@ function getWeekDates(date) {
  */
 function positionEvents(container, events) {
   // Handle desktop view only (mobile uses list view)
-  const dayColumns = container.querySelectorAll(".day-column");
+  const dayColumns = container.querySelectorAll('.day-column');
 
   let currentWeekDate = new Date();
   if (container.dataset.currentWeekDate) {
@@ -323,13 +330,14 @@ function positionEvents(container, events) {
 
   // Clear existing events in desktop view
   dayColumns.forEach((column) => {
-    const eventsList = column.querySelector(".events-container");
+    const eventsList = column.querySelector('.events-container');
     if (eventsList) {
-      eventsList.innerHTML = "";
+      eventsList.innerHTML = '';
     }
   });
 
   // Position each event
+  let positionedCount = 0;
   events.forEach((event, index) => {
     if (!event.start) {
       return;
@@ -367,15 +375,16 @@ function positionEvents(container, events) {
     const desktopDayColumn = dayColumns[dayIndex];
     if (desktopDayColumn) {
       const desktopEventsList =
-        desktopDayColumn.querySelector(".events-container");
+        desktopDayColumn.querySelector('.events-container');
       if (desktopEventsList) {
         // Calculate position (10am-8pm range, 64px per hour)
         const topPosition = (startHour - 10) * 64 + (startMinute / 60) * 64;
 
         eventElement.style.top = `${topPosition}px`;
-        eventElement.style.position = "absolute";
+        eventElement.style.position = 'absolute';
 
-        desktopEventsList.appendChild(eventElement.cloneNode(true));
+        desktopEventsList.appendChild(eventElement);
+        positionedCount++;
       }
     }
   });
@@ -387,13 +396,13 @@ function positionEvents(container, events) {
  * @returns {HTMLElement} The created event element
  */
 function createEventElement(event) {
-  const eventDiv = document.createElement("div");
+  const eventDiv = document.createElement('div');
 
   // Determine event title with fallback logic
-  let eventTitle = "No Title";
-  if (event.title && event.title !== "No Title") {
+  let eventTitle = 'No Title';
+  if (event.title && event.title !== 'No Title') {
     eventTitle = event.title;
-  } else if (event.summary && event.summary !== "No Title") {
+  } else if (event.summary && event.summary !== 'No Title') {
     eventTitle = event.summary;
   } else if (event.name) {
     eventTitle = event.name;
@@ -431,7 +440,7 @@ function createEventElement(event) {
 	`;
 
   // Add click handler to show popup
-  eventDiv.addEventListener("click", function (e) {
+  eventDiv.addEventListener('click', function (e) {
     e.preventDefault();
     e.stopPropagation();
     showEventPopup(event);
@@ -604,7 +613,7 @@ function addNavigationListeners(
  */
 function showEventPopup(event) {
   // Remove existing popup if any
-  const existingPopup = document.querySelector(".calendar-event-popup");
+  const existingPopup = document.querySelector('.calendar-event-popup');
   if (existingPopup) {
     existingPopup.remove();
   }
@@ -705,6 +714,7 @@ window.showEventPopup = showEventPopup;
 function initializeAllCalendars() {
   // Try multiple selectors to find calendar containers
   const selectors = [
+    ".time-now-calendar-wrapper[data-calendar-id]",
     ".calendar-block-wrapper[data-calendar-id]",
     "[data-block-id]",
     ".wp-block-time-now-google-calendar",
@@ -754,13 +764,14 @@ document.addEventListener("DOMContentLoaded", function () {
           // Check if the added node is a calendar container
           if (
             node.classList &&
-            node.classList.contains("calendar-block-wrapper")
+            (node.classList.contains("time-now-calendar-wrapper") ||
+             node.classList.contains("calendar-block-wrapper"))
           ) {
             initializeCustomCalendar(node);
           }
           // Check if the added node contains calendar containers
           const calendarContainers = node.querySelectorAll?.(
-            ".calendar-block-wrapper[data-calendar-id]",
+            ".time-now-calendar-wrapper[data-calendar-id], .calendar-block-wrapper[data-calendar-id]",
           );
           if (calendarContainers) {
             calendarContainers.forEach(initializeCustomCalendar);

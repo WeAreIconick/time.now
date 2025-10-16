@@ -61,7 +61,7 @@ class Time_Now_Renderer {
 		// Get wrapper attributes
 		$wrapper_attributes = get_block_wrapper_attributes(
 			array(
-				'class' => 'calendar-block-wrapper',
+				'class' => 'time-now-calendar-wrapper',
 				'data-block-id' => $block_id,
 			)
 		);
@@ -89,7 +89,7 @@ class Time_Now_Renderer {
 			$events_json = wp_json_encode( $events );
 			
 			
-			echo '<div id="' . esc_attr( $block_id ) . '" class="calendar-block-wrapper" ';
+			echo '<div id="' . esc_attr( $block_id ) . '" class="time-now-calendar-wrapper" ';
 			echo 'data-calendar-id="' . esc_attr( $calendar_id ) . '" ';
 			echo 'data-events=\'' . esc_attr( $events_json ) . '\' ';
 			echo 'data-default-view="' . esc_attr( $default_view ) . '" ';

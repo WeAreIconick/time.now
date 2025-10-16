@@ -707,7 +707,7 @@ function initializeAllCalendars() {
   const selectors = [
     ".calendar-block-wrapper[data-calendar-id]",
     "[data-block-id]",
-    ".wp-block-calendar-block-google-calendar",
+    ".wp-block-time-now-google-calendar",
     '[class*="calendar"]',
   ];
 

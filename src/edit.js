@@ -44,7 +44,7 @@ export default function Edit( { attributes, setAttributes } ) {
 							'Paste the share URL from Google Calendar',
 							'time-now'
 						) }
-						placeholder="your-email@gmail.com or https://calendar.google.com/calendar/..."
+						placeholder="https://calendar.google.com/calendar/..."
 					/>
 
 					<SelectControl
@@ -145,35 +145,7 @@ export default function Edit( { attributes, setAttributes } ) {
 							'Enter your Google Calendar ID in the block settings to display your calendar events.',
 							'time-now'
 						) }
-					>
-						<div
-							style={ {
-								textAlign: 'center',
-								padding: '20px',
-								background: '#f0f0f1',
-								borderRadius: '4px',
-								margin: '16px 0',
-							} }
-						>
-							<p
-								style={ {
-									margin: '0 0 8px 0',
-									fontWeight: 'bold',
-								} }
-							>
-								{ __(
-									'Time.now() Calendar Block',
-									'time-now'
-								) }
-							</p>
-							<p style={ { margin: '0', fontSize: '14px' } }>
-								{ __(
-									'Please enter your Google Calendar ID in the block settings →',
-									'time-now'
-								) }
-							</p>
-						</div>
-					</Placeholder>
+					/>
 				) }
 			</div>
 		</>

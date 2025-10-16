@@ -1,6 +1,6 @@
 /* Editor-specific styles for the calendar block */
 
-.wp-block-calendar-block-google-calendar {
+.wp-block-time-now-google-calendar {
 
 	/* Match frontend styles in editor */
 	.calendar-container {
@@ -48,7 +48,7 @@
 /* Inspector Controls styling */
 .components-panel__body {
 
-	.calendar-block-color-picker {
+	.time-now-color-picker {
 		margin: 16px 0;
 
 		.components-base-control__label {
@@ -60,7 +60,7 @@
 }
 
 /* Block alignment support */
-.wp-block-calendar-block-google-calendar.alignwide {
+.wp-block-time-now-google-calendar.alignwide {
 
 	.calendar-container {
 		max-width: 1200px;
@@ -69,7 +69,7 @@
 	}
 }
 
-.wp-block-calendar-block-google-calendar.alignfull {
+.wp-block-time-now-google-calendar.alignfull {
 
 	.calendar-container {
 		max-width: 100%;
@@ -82,7 +82,7 @@
 /* Editor responsive adjustments */
 @media (max-width: 782px) {
 
-	.wp-block-calendar-block-google-calendar {
+	.wp-block-time-now-google-calendar {
 
 		.calendar-container {
 			padding: 16px;

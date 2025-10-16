@@ -87,7 +87,7 @@ export default function Edit( { attributes, setAttributes } ) {
 			<div { ...blockProps }>
 				{ calendarId ? (
 					<ServerSideRender
-						block="calendar-block/google-calendar"
+						block="time-now/google-calendar"
 						attributes={ attributes }
 						LoadingResponsePlaceholder={ () => (
 							<div

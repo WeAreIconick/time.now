@@ -1,9 +1,9 @@
 {
 	"$schema": "https://schemas.wp.org/trunk/block.json",
 	"apiVersion": 3,
-	"name": "calendar-block/google-calendar",
+	"name": "time-now/google-calendar",
 	"version": "1.0.0",
-	"title": "Google Calendar",
+	"title": "Time.now() Calendar",
 	"category": "widgets",
 	"icon": "calendar-alt",
 	"description": "Display beautiful Google Calendar events with multiple views",

@@ -268,15 +268,10 @@ function createCalendarHTML(events, accentColor, weekStartDate = new Date()) {
 									<div class="border-2 border-black bg-white p-3 shadow cursor-pointer hover:bg-gray-50 transition-colors" onclick="showEventPopup(${JSON.stringify(
                     event,
                   ).replace(/"/g, "&quot;")})">
-										<div class="flex items-center justify-between mb-2">
+										<div class="flex items-center justify-between">
 											<h4 class="font-medium text-sm">${event.title}</h4>
 											<span class="text-xs text-gray-600">${startTime} - ${endTime}</span>
 										</div>
-										${
-                      event.description
-                        ? `<p class="text-xs text-gray-600 line-clamp-2">${event.description}</p>`
-                        : ""
-                    }
 									</div>
 								`;
                   })
